@@ -1,0 +1,43 @@
+.CommonInfo {
+    .CommonInfo-container {
+        background-color: #f8f9fa;
+        .div-title {
+            background-image: url("./../Images//menuLogRight.png");
+            background-repeat: repeat;
+            width: 100%;
+            .CommonInfo-title {
+                line-height: 20px;
+                padding: 10px;
+            }
+        }
+        .CommonInfo-local {
+            padding: 20px;
+            .text-underline {
+                text-decoration: underline;
+            }
+            ul {
+                list-style-type: none;
+                li {
+                    i {
+                        margin-right: 15px;
+                    }
+                    ul {
+                        list-style-type: disc;
+                        li {
+                            margin: 10px 0px;
+                        }
+                    }
+                }
+            }
+
+            .text-red {
+                color: red;
+            }
+            .text-highlight {
+                font-weight: bold;
+                font-size: 17px;
+                background-color: greenyellow;
+            }
+        }
+    }
+}

@@ -1,0 +1,54 @@
+.btn-downloadfile {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 7px;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100%;
+}
+.btn-downloadfile:hover {
+    background-color: RoyalBlue;
+}
+.btn-choosefile {
+    position: relative;
+    overflow: hidden;
+    background-color: violet;
+    border: none;
+    color: white;
+    padding: 7px 22px;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100%;
+}
+.btn-choosefile i{
+    padding: 0 5px;
+}
+.btn-choosefile:hover {
+    background-color: rgb(228, 74, 228);
+}
+.btn-choosefile input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 10px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    cursor: inherit;
+    display: block;
+}
+.btn-cancel-file {
+    background-color: brown;
+}
+.btn-submitfile {
+    background-color: white;
+
+}
+.btn-submitfile:hover {
+    background-color: rgb(221, 219, 219);
+
+}

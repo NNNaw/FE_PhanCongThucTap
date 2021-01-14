@@ -1,0 +1,15 @@
+.Comment{
+   
+}
+.Comment .Comment-container{
+        
+}
+.Comment-list table {
+    width: 100%;
+}
+.Comment-list table tr .td-1{
+   width: 100%/6;
+}
+.Comment-list table tr .td-3{
+    width: 100%/6*3;
+ }

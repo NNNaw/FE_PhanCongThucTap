@@ -1,0 +1,25 @@
+.DetailUser {
+    background-color: #f8f9fa;
+    .DetailUser-container {
+        .DetailUser-container-left {
+            text-align: center;
+            // vertical-align: bottom;
+            img {
+               
+            }
+        }
+        .DetailUser-container-right {
+            h3 {
+                text-align: center;
+            }
+            .label-user-text {
+                font-weight: bold;
+            }
+            // .infoUser-static .infoUser-dynamic{
+            //     .label-user-text {
+            //         font-weight: bold;
+            //     }
+            // }
+        }
+    }
+}

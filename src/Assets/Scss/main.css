@@ -1,0 +1,45 @@
+.header .header-container .header-color-banner {
+  width: 100%;
+  height: 10px;
+  background-color: orange;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px; }
+.header .header-container .header-logo img {
+  height: 200px;
+  width: 300px; }
+.header .header-container .header-nav {
+  border: 1px solid black; }
+.header .header-container .header-login {
+  background-color: #f8f9fa;
+  margin: 10px 0px;
+  padding: 10px 0; }
+  .header .header-container .header-login .forget-password a {
+    color: black; }
+    .header .header-container .header-login .forget-password a:hover {
+      color: blue; }
+  .header .header-container .header-login .user-name label,
+  .header .header-container .header-login .pass-word label {
+    margin-right: 10px; }
+.header .header-container .button-login .btn-login {
+  border-radius: 5px;
+  font-weight: normal;
+  background-color: white; }
+
+.CommonInfo .CommonInfo-container {
+  background-color: #f8f9fa; }
+  .CommonInfo .CommonInfo-container .div-title {
+    background-image: url("./../Images//menuLogRight.png");
+    background-repeat: repeat;
+    width: 100%; }
+  .CommonInfo .CommonInfo-container .CommonInfo-local {
+    padding: 20px; }
+    .CommonInfo .CommonInfo-container .CommonInfo-local li {
+      text-decoration: none; }
+    .CommonInfo .CommonInfo-container .CommonInfo-local .text-red {
+      color: red; }
+    .CommonInfo .CommonInfo-container .CommonInfo-local .text-highlight {
+      font-weight: bold;
+      font-size: 17px;
+      background-color: greenyellow; }
+
+/*# sourceMappingURL=main.css.map */
