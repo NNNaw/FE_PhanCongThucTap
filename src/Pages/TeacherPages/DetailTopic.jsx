@@ -52,7 +52,7 @@ class DetailTopic extends Component {
                         <td>{ele.tenSV}</td>
                         <td>
                             <div>
-                                <button className='btn btn-primary mr-3' onClick={() => this.props.comfirmRegisterTopic(this.props.match.params.id, ele.idSV,0)}>Duyệt</button>
+                                <button className='btn btn-primary mr-3' onClick={() => this.props.comfirmRegisterTopic(this.props.match.params.id, ele.idSV, 0)}>Duyệt</button>
                                 <button className='btn btn-danger'>Từ Chối</button>
                             </div>
 
@@ -92,7 +92,10 @@ class DetailTopic extends Component {
                         {/* <p><span>Số Lượng Sinh Viên : </span>{this.state.topic.idDeTai}</p> */}
                         <p><span>Tiêu Đề : </span>{this.props.DetailTopic.tenDeTai}</p>
                         <p><span>Tình Trạng : </span>{this.props.DetailTopic.tinhTrangDT ? <span className='text-success'>Đang mở</span> : <span className='text-danger'>Đang đóng</span>}</p>
-                        <p><span>Nội Dung : </span>{this.props.DetailTopic.noiDungDT}</p>
+                        <p><span>Nội Dung : </span> <span className='content-topic' dangerouslySetInnerHTML={{
+                            __html: this.props.DetailTopic.noiDungDT
+                        }} />
+                        </p>
                         <button className='btn btn-primary'>Cập Nhật</button>
                     </div>
 
@@ -149,8 +152,12 @@ class DetailTopic extends Component {
         );
     }
     componentDidMount() {
-        this.props.getDetailTopic(this.props.match.params.id);
-        this.props.getStudentByTopic(this.props.match.params.id);
+        setTimeout(() => {
+            this.props.getDetailTopic(this.props.match.params.id);
+        }, 1);
+       setTimeout(() => {
+            this.props.getStudentByTopic(this.props.match.params.id);
+       }, 50);
 
     }
     componentDidUpdate(prevProps, prevState) {
@@ -187,8 +194,8 @@ function mapDispatchToProps(dispatch) {
         getStudentByTopic: (id) => {
             dispatch(getStudentByTopicAction(id))
         },
-        comfirmRegisterTopic: (idDeTai, idSV,idGV) => {
-            dispatch(comfirmRegisterTopicAction(idDeTai, idSV,idGV))
+        comfirmRegisterTopic: (idDeTai, idSV, idGV) => {
+            dispatch(comfirmRegisterTopicAction(idDeTai, idSV, idGV))
         },
 
     };

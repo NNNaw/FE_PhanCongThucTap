@@ -3,8 +3,14 @@ import logo from './../../Assets/Images/hutech-logo.png'
 
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
-import { LoginUserAction, LogOutAction, onLoadUserAction } from '../../Redux/Actions/ManageUsers.Action';
+import { LoginUserAction, LogOutAction, onLoadUserAction, getNotifyByAccountAction, markReadNotifyByAccountAction } from '../../Redux/Actions/ManageUsers.Action';
 import { NavLink } from 'react-router-dom';
+
+import history from "./../Common/history";
+//import { isEqual } from 'lodash';
+
+var dateFormat = require('dateformat')
+
 
 class Header extends Component {
 
@@ -16,7 +22,7 @@ class Header extends Component {
                 password: ''
             },
             text_error: "",
-
+            isMark: false,
         }
     }
     handleChange = (event) => {
@@ -29,8 +35,16 @@ class Header extends Component {
         })
     }
 
-    setText = (text) => {
-        this.setState({ text_error: text });
+    setText = (text, isTrue) => {
+
+        console.log(text)
+        if (isTrue) { // đúng
+            this.props.getNotifyByAccount(this.state.account.username);
+            history.push(text);
+        }
+        else { // sai thông tin đăng nhập
+            this.setState({ text_error: text });
+        }
     }
 
     component_login() {
@@ -103,14 +117,22 @@ class Header extends Component {
                     >Quản Lý Công Việc</NavLink>
                 </li>
                 <li className='nav-item'>
-                    <NavLink className='nav-link' to={`/thong-tin-giang-vien/${this.props.User.idGV}`}>
+                    <NavLink className='nav-link' to={`/thong-tin-ca-nhan/${this.props.User.idGV}`}>
                         Thông tin cá nhân
+                    </NavLink>
+                </li>
+                <li className='nav-item'>
+
+                    <NavLink className='nav-link' to={`/quan-ly-thong-ke/${this.props.User.idGV}`}>
+                        Quản Lý Thống kê
                     </NavLink>
                 </li>
             </Fragment>
         )
     }
-    renderNavAdmin = () =>{
+
+    renderNavAdmin = () => {
+
         return (
             <Fragment>
                 <li className='nav-item'>
@@ -133,6 +155,7 @@ class Header extends Component {
             </Fragment>
         )
     }
+
     renderNav = () => {
         switch (this.props.User.tenLoaiTaiKhoan) {
             case "Sinh Viên":
@@ -173,10 +196,68 @@ class Header extends Component {
 
         )
     }
+    showFullNotifyction(content, index) {
+        // var x = document.getElementById('extra_' + index);
 
+        // x.innerHTML = content;
+
+    }
+    renderNotify = (array) => {
+
+        if (array.length === 0) {
+            return (
+                <p className='text-info text-center'>Bạn không có thông báo.</p>
+            )
+        }
+        return array.map((ele, index) => {
+            return (
+                // dropdown-item
+                <div key={index} className='item-notify checkbox'>
+                    <input type="checkbox" className='checkbox_Notify' value={ele.idTB} />
+                    <div className="item-notify-image">
+                        <img src={'http://localhost:9999/uploads/avatarDefault.png'} alt="error" />
+                    </div>
+                    <div className="item-notify-text">
+                        {ele.noiDungTB &&
+                            <div>
+                                <p className='item-content-notify'>
+                                    {ele.noiDungTB.length > 70 ?
+                                        <span> {ele.noiDungTB.substring(0, 70)}
+                                            <span className='text-primary'> [xem thêm]</span>
+
+                                        </span> :
+                                        ele.noiDungTB}
+                                </p>
+
+                                <p className='item-date-notify'>{
+
+                                    dateFormat(ele.ngayTaoTB.replace("Z", ""), "HH:MM") + " , " +
+                                    dateFormat(ele.ngayTaoTB.replace("Z", ""), "dd/mm/yy")
+                                }
+
+                                </p>
+                            </div>
+                        }
+
+                    </div>
+
+
+                </div>
+            )
+        })
+    }
+
+    showCheckboxNotify(isMark) {
+        var list_checkBox = document.getElementsByClassName('checkbox_Notify');
+        console.log(list_checkBox);
+        for (let i = 0; i < list_checkBox.length; i++) {
+            list_checkBox[i].style.opacity = "1";
+        }
+    }
     render() {
         return (
             <div className='header'>
+
                 <div className="header-container container">
                     <div className="header-logo">
                         <img src={logo} alt="Error" />
@@ -204,9 +285,26 @@ class Header extends Component {
                                     </ul>
 
                                 </div>
-                                <div className="div-notification">
-                                    <button><i className="fa fa-bell"></i></button>
-                                </div>
+
+                                {this.props.User !== null &&
+                                    <div className="dropdown div-notification">
+                                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <p className='lbl_notifyBtn'>{this.props.notifyByAccount.length}</p>
+                                            <i className="fa fa-bell"></i>
+                                        </button>
+                                        <div className="dropdown-menu">
+                                            <div className="top-notify">
+                                                <p className='text-info' onClick={() => this.props.markReadNotifyByAccount(JSON.parse(localStorage.getItem('infoUser')).taiKhoan)}>Đọc Tất Cả</p>
+                                                {/* {!this.state.isMark ?
+                                                    <p className='text-info' onClick={() => this.showCheckboxNotify(false)}>Đánh dấu</p> :
+                                                    <p className='text-warning' onClick={() => this.showCheckboxNotify(true)}>Hủy bỏ</p>
+                                                } */}
+                                            </div>
+                                            {this.renderNotify(this.props.notifyByAccount)}
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </nav>
 
@@ -219,7 +317,6 @@ class Header extends Component {
                         this.component_login() :
                         this.renderHello()
 
-
                     }
 
                 </div>
@@ -229,13 +326,23 @@ class Header extends Component {
         )
     }
     componentDidMount() {
+        if (JSON.parse(localStorage.getItem('infoUser'))) {
+            this.props.getNotifyByAccount(JSON.parse(localStorage.getItem('infoUser')).taiKhoan)
+        }
+        var list_checkBox = document.getElementsByClassName('checkbox_Notify');
+        console.log(list_checkBox);
+        for (let i = 0; i < list_checkBox.length; i++) {
+            list_checkBox[i].style.opacity = "0";
+        }
+    }
+    componentDidUpdate(prevState, prevProps) {
 
     }
 }
 const mapStateToProps = state => {
     return {
-        User: state.ManageUserReducer.User
-
+        User: state.ManageUserReducer.User,
+        notifyByAccount: state.ManageUserReducer.notifyByAccount,
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -248,7 +355,14 @@ const mapDispatchToProps = dispatch => {
         },
         onLoadUser: () => {
             dispatch(onLoadUserAction())
-        }
+        },
+        getNotifyByAccount: (username) => {
+            dispatch(getNotifyByAccountAction(username))
+        },
+
+        markReadNotifyByAccount: (username) => {
+            dispatch(markReadNotifyByAccountAction(username))
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

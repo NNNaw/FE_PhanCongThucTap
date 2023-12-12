@@ -5,12 +5,15 @@ const intialState = {
     // isLogOut: JSON.parse(localStorage.getItem('inforUser')) !== null ? true : false,
     User: JSON.parse(localStorage.getItem('inforUser')) ? JSON.parse(localStorage.getItem('inforUser')) : null,
     isAuthenticated: JSON.parse(localStorage.getItem('inforUser')) ? true : false,
-    teacher: {
-        idGV: "", tenGV: "", hhhv: "", sdt: "", email: "", tenChucVu: "", tenBoMon: "", hinhAnh: ""
-    },
-    mentor: {}, userDetail: {},
-    teachers: [], mentors: [], assignments: [],assignmentStudentNotDone:[]
+    // teacher: {
+    //     idGV: "", tenGV: "", hhhv: "", sdt: "", email: "", tenChucVu: "", tenBoMon: "", hinhAnh: ""
+    // },
+    teacher: {},
+    mentor: {}, userDetail: {}, accounts: [], accountConfirmed: [], accountUnconfirmed: [], DetailListStudentWaitingAssignment: [],
+    teachers: [], mentors: [], assignments: [], assignmentStudentNotDone: [], notifyByAccount: [],
+    ListTeacherAndQuantityStudent: [], QuantityStudentByIdTeacher: [],
 }
+
 
 export const ManageUserReducer = (state = intialState, action) => {
 
@@ -98,6 +101,66 @@ export const ManageUserReducer = (state = intialState, action) => {
                 assignmentStudentNotDone: action.data
             }
         }
+        case actionTypes.GET_NOTIFY_BY_ACCOUNT: {
+
+            return {
+                ...state,
+                notifyByAccount: action.data
+            }
+        }
+
+        case actionTypes.GET_ALL_ACCOUNT: {
+
+
+
+            return {
+                ...state,
+                accounts: action.data,
+
+            }
+        }
+        case actionTypes.getAccountsConfirmed: {
+
+            return {
+                ...state,
+                accountConfirmed: action.data,
+
+            }
+        }
+        case actionTypes.getAccountsUnconfirm: {
+
+            return {
+                ...state,
+                accountUnconfirmed: action.data,
+
+            }
+        }
+        case actionTypes.getDetailListStudentWaitingAssignment: {
+            console.log(action.data)
+            return {
+                ...state,
+                DetailListStudentWaitingAssignment: action.data,
+
+            }
+        }
+
+        case actionTypes.getListTeacherAndQuantityStudent: {
+
+            return {
+                ...state,
+                ListTeacherAndQuantityStudent: action.data,
+
+            }
+        }
+        case actionTypes.getQuantityStudentByIdTeacher: {
+
+            return {
+                ...state,
+                QuantityStudentByIdTeacher: action.data,
+
+            }
+        }
+        
         default:
             return { ...state }
     }

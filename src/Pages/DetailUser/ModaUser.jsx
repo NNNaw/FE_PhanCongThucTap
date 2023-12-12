@@ -16,18 +16,19 @@ export default class ModaUser extends Component {
                 queQuan: this.props.userDetail.queQuan,
                 namSinh: this.props.userDetail.namSinh,
 
-                hoTen: "",
-                idSV: 3,
+
                 hinhAnh: "uploads/avatarDefault.png",
-                tinhTrang: false,
-                taiKhoan: "sinhvien123",
-                idLop: 1,
-                idKhoa: 1,
-                tenLop: "HTTT14",
-                tenKhoa: "Công Nghệ Thông Tin",
-                tenKhoaHoc: "Ðại học khóa 13",
-                tuNamHoc: "2013-02-03T00:00:00.000Z",
-                denNamHoc: "2017-12-21T00:00:00.000Z"
+                // hoTen: "",
+                // idSV: 3,
+                // tinhTrang: false,
+                // taiKhoan: "sinhvien123",
+                // idLop: 1,
+                // idKhoa: 1,
+                // tenLop: "HTTT14",
+                // tenKhoa: "Công Nghệ Thông Tin",
+                // tenKhoaHoc: "Ðại học khóa 13",
+                // tuNamHoc: "2013-02-03T00:00:00.000Z",
+                // denNamHoc: "2017-12-21T00:00:00.000Z"
 
 
             }
@@ -53,19 +54,19 @@ export default class ModaUser extends Component {
             <div className="form-check form-check-inline d-flex justify-content-between">
                 <label htmlFor="">Giới Tính:</label>
                 <label className="form-check-label active">
-                    <input className="form-check-input" type="radio" name="gender"
+                    <input className="form-check-input" type="radio" name="gioiTinh"
                         value="true"
-                        checked={gender === true}
+                        checked={gender}
                         onChange={this.handleChange}
                     />Nam
-                    </label>
+                </label>
                 <label className="form-check-label">
-                    <input className="form-check-input" type="radio" name="gender"
+                    <input className="form-check-input" type="radio" name="gioiTinh"
                         value="false"
-                        checked={gender === false}
+                        checked={!gender}
                         onChange={this.handleChange}
                     />Nữ
-                    </label>
+                </label>
 
             </div>
 
@@ -100,6 +101,7 @@ export default class ModaUser extends Component {
                                     {/* <p className='d-flex justify-content-between'>
                                         <span className='font-weight-bold'>Họ tên</span> : <span>{this.props.userDetail.tenSV}</span></p> */}
 
+
                                     <form onSubmit={this.handleSubmitModal}>
                                         <div className='DetailUser-item d-flex justify-content-between'>
                                             <label htmlFor="email">Email:</label>
@@ -127,7 +129,6 @@ export default class ModaUser extends Component {
 
                                         <input type="submit" defaultValue="Lưu" />
                                     </form>
-
 
                                 </div>
                             </div>

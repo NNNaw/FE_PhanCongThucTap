@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addMissionAction, getAssignmemStudentNotDoneAction } from '../../Redux/Actions/ManageUsers.Action';
+import { addMissionAction, getAssignmemStudentNotDoneAction, mySwal } from '../../Redux/Actions/ManageUsers.Action';
 
 
 class ModalAddMission extends Component {
@@ -58,7 +58,20 @@ class ModalAddMission extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addMission(this.state.DetailAssignment)
+        var today = new Date();
+        var fromDateCompare = new Date(this.state.DetailAssignment.tuNgay);// ngày nộp
+        var toDateCompare = new Date(this.state.DetailAssignment.denNgay);// ngày nộp
+
+        if(today > fromDateCompare){
+            
+            mySwal("warning","từ ngày phải lớn hơn ngày hiện tại...");
+            return;
+        }
+        if(fromDateCompare > toDateCompare){
+            mySwal("warning","từ ngày phải nhỏ hơn đến ngày ...");
+            return;
+        }
+         this.props.addMission(this.state.DetailAssignment)
     }
     render() {
         console.log("Modaaddmission")

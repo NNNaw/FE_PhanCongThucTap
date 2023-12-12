@@ -10,7 +10,7 @@ export const getAllTopicAction = (set) => {
             method: 'get',
 
         }).then(result => {
-            // console.log(result.data);
+           console.log(result.data);
             // const dataSliced = result.data.slice(offset, offset + perPage)
             dispatch({
                 type: actionTypes.get_all_topic,
@@ -50,8 +50,8 @@ export const getAllTopicByIdTeacherAction = (idGV) => {
             method: 'get',
 
         }).then(result => {
-            // console.log(result.data);
-            // const dataSliced = result.data.slice(offset, offset + perPage)
+           
+
             dispatch({
                 type: actionTypes.get_topic_by_idTeach,
                 data: result.data
@@ -59,7 +59,7 @@ export const getAllTopicByIdTeacherAction = (idGV) => {
 
         }).catch(error => {
             console.log(error.response)
-            // swal("Thông báo đăng ký!", error.response.data, "error");
+          
         })
     }
 }
@@ -152,7 +152,7 @@ export const getDetailStudentWaitingAddMissionAction = (idSV) => {
 
 export const comfirmRegisterTopicAction = (idDeTai, idSV, idGV) => {
     const data = {
-        idDeTai, idSV
+        idDeTai, idSV,idGV , idNv : null
     }
     console.log(idDeTai, idSV, idGV)
     return dispatch => {
@@ -183,6 +183,38 @@ export const comfirmRegisterTopicAction = (idDeTai, idSV, idGV) => {
     }
 }
 
+export const denyRegisterTopicAction = (idDeTai, idSV, idGV) => {
+    const data = {
+        idDeTai, idSV ,idGV
+    }
+    console.log(idDeTai, idSV, idGV)
+    return dispatch => {
+        axios({
+            url: settings.domain + `/admin/denyRegisterTopic/${idGV}`,
+            method: 'patch',
+            data: data
+        }).then(result => {
+
+            if (idGV !== 0) {
+                console.log("true")
+                dispatch(getStudentWatingComfirmByTeacherAction(idGV))
+            } else {
+                dispatch(getStudentByTopicAction(idDeTai))
+            }
+            swal({
+                icon: "success",
+                title: "Thông báo",
+                text: result.data,
+                buttons: false,
+                timer: 1200,
+            });
+
+        }).catch(error => {
+            console.log(error.response)
+            swal("Thông báo!", error.response.data, "error");
+        })
+    }
+}
 export const changeStatusTopicAction = (idDetai, idGV, status) => {
     return dispatch => {
         axios({
@@ -215,6 +247,7 @@ export const getTopicByIdStudentAction = (idSV) => {
             method: 'get',
 
         }).then(result => {
+            console.log(result.data);
             dispatch({
                 type: actionTypes.get_topic_by_id_student,
                 data: result.data
@@ -239,7 +272,7 @@ export const registerTopicAction = (idSV, idDeTai) => {
             data: data
         }).then(result => {
             dispatch(getTopicByIdStudentAction(idSV))
-
+            dispatch(getAllTopicAction())
             swal({
                 icon: "success",
                 title: "Thông báo",
@@ -274,6 +307,7 @@ export const cancleTopicAction = (idSV, idDeTai) => {
             data: data
         }).then(result => {
             dispatch(getTopicByIdStudentAction(idSV))
+            dispatch(getAllTopicAction())
             swal({
                 icon: "success",
                 title: "Thông báo",
@@ -333,6 +367,7 @@ export const addTopicAction = (data) => {
             data
         }).then(result => {
             dispatch(getAllTopicByIdTeacherAction(data.idGV))
+            
             swal({
                 icon: "success",
                 title: "Thông báo",

@@ -23,6 +23,64 @@
         }
         .header-nav {
             border: 1px solid black;
+            .navbar {
+                .div-notification {
+                    #dropdownMenuButton {
+                        position: relative;
+                        background-color: white;
+                        border: 1px solid black;
+                        .lbl_notifyBtn {
+                            position: absolute;
+
+                            background-color: red;
+                            color: white;
+                            border-radius: 50%;
+                            width: 20px;
+                            top: -25%;
+                            right: -20%;
+                        }
+                        i {
+                            color: black;
+                        }
+                        &::after {
+                            display: none !important;
+                        }
+                    }
+
+                    .dropdown-menu {
+                        width: 300px;
+                        left: -90%;
+                        padding: 10px;
+
+                        .item-notify {
+                            display: flex;
+                            align-items: center;
+                            .item-notify-image {
+                                margin-right: 10px;
+                                img {
+                                    border-radius: 50%;
+                                    width: 30px;
+                                    height: 30px;
+                                }
+                            }
+                            .item-notify-text {
+                                border-bottom: 1px solid black;
+                                padding: 10px 0;
+                                .item-content-notify {
+                                    font-size: 14px;
+                                    margin-bottom: 5px;
+                                }
+                                .item-date-notify {
+                                    width: 100%;
+                                    text-align: right;
+                                    font-size: 13px;
+                                    margin-bottom: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         .header-login {
             background-color: #faf8fa;

@@ -46,8 +46,11 @@ class Assignment extends Component {
                     }</td>
                     <td>
                         <div>
-                            <NavLink className='btn btn-primary mr-2' to={`/quan-ly-cong-viec/them-cong-viec/${ele.idSV}`} >Thêm PC</NavLink>
-                            <NavLink className='btn btn-success' to={`/quan-ly-cong-viec/them-cong-viec/${ele.idSV}`} >Đánh Giá </NavLink>
+                            {!ele.tinhTrang ?
+                                <NavLink className='btn btn-primary mr-2' to={`/quan-ly-cong-viec/them-cong-viec/${ele.idSV}`}>Thêm PC</NavLink> : 
+                            <button className='btn btn-primary mr-2' disabled>Thêm PC</button>
+                            }
+                            <NavLink className='btn btn-success' to={`/xem-nhan-xet/${ele.idSV}`} >Xem N.X</NavLink>
                         </div>
                     </td>
                 </tr >

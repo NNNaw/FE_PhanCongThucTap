@@ -50,12 +50,18 @@ export const ManageTopicReducer = (state = intialState, action) => {
                 arrayTopic = state.Topics
             }
 
-            return {
+            
+                 return {
                 ...state,
                 TopicFilter: arrayTopic
             }
+            
+
+            
+           
         }
         case actionTypes.get_topic_by_idTeach: {
+            console.log(action.data);
             return {
                 ...state,
                 TopicByTeacher: action.data

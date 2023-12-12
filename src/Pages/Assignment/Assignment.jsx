@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { downloadFileAction, getAssignmenByIdAction, submitFileAction } from '../../Redux/Actions/ManageUsers.Action';
-
+import {downloadFile} from '../../Components/Common/utilities'
 import './Assignment.css'
 var dateFormat = require('dateformat');
 
@@ -13,13 +13,15 @@ class Assignment extends Component {
         super(props);
         this.state = {
             fileSelected: null,
+            indexSelected: -1,
         }
     }
     handleChangeFile = (event) => {
         this.setState({
             fileSelected: event.target.files[0],
+
         }, () => {
-            console.log(this.state.fileSelected)
+            console.log(this.state.indexSelected)
         });
     }
 
@@ -32,10 +34,13 @@ class Assignment extends Component {
 
                     <td className='text-left'><p>{ele.tenCV}</p></td>
 
-                    <td><p>{ele.noiDungCV !== "" ?
-                        <button className='btn-downloadfile' onClick={() => this.downloadFile(ele.noiDungCV)}> <i className="fa fa-download" /> Download File</button>
-                        : <p>---</p>
-                    }</p></td>
+                    <td>
+                        <p>{ele.noiDungCV !== "" ?
+                            <button className='btn-downloadfile' onClick={() => downloadFile(ele.noiDungCV)}>
+                                <i className="fa fa-download" /> Download File</button>
+                            : <p>---</p>
+                        }</p>
+                    </td>
                     <td><p>{dateFormat(ele.tuNgay, 'dd/mm/yyyy')}</p></td>
                     <td>
                         <p>{dateFormat(ele.denNgay, 'dd/mm/yyyy')}</p>
@@ -97,10 +102,15 @@ class Assignment extends Component {
 
     }
 
+    shoot() {
+        alert('Đã hết hạn nộp bài...')
+    }
+
     renderButton = (filePath, idCV, idSV, denNgay) => {
 
         var today = new Date();
-        var dateCompare = new Date(denNgay);
+        var dateCompare = new Date(denNgay);// ngày nộp
+
         if (filePath === "") {// nếu ssinh viên chưa nộp bài
             if (this.state.fileSelected === null) {
 
@@ -108,9 +118,27 @@ class Assignment extends Component {
                     return (
                         <span className="btn-choosefile ">
                             <i className="fa fa-paperclip"></i> Choose File
-                            <input onChange={this.handleChangeFile} type="file" id="file" name="file" />
+                            <input onChange={this.handleChangeFile}
+                                onClick={() => this.setState({ indexSelected: idCV })} type="file" id="file" name="file" />
                         </span>
 
+                    )
+                } else {
+                    return (
+                        <span className="btn-choosefile" style={{ backgroundColor: "f093e9" }}>
+                            <i className="fa fa-paperclip"></i> Choose File
+                            <input onClick={this.shoot} type="file" id="file" name="file" disabled />
+                        </span>
+                    )
+                }
+            } else {
+                if (this.state.indexSelected === idCV) {
+                    return (
+                        <div>
+                            <button className='btn-submitfile' onClick={() => this.props.submitFile(this.state.fileSelected, idCV, idSV)}>
+                                <i className="fa fa-paper-plane"></i> Submit File</button>
+                            <button className='btn-cancel-file' onClick={() => this.setState({ fileSelected: null })}>X</button>
+                        </div>
                     )
                 } else {
                     return (
@@ -120,46 +148,21 @@ class Assignment extends Component {
                         </span>
                     )
                 }
-            } else {
-                return (
-                    <div>
-                        <button className='btn-submitfile' onClick={() => this.props.submitFile(this.state.fileSelected, idCV, idSV)}>
-                            <i className="fa fa-paper-plane"></i> Submit File</button>
-                        <button className='btn-cancel-file' onClick={() => this.setState({ fileSelected: null })}>X</button>
-                    </div>
-                )
+
             }
         }
         else { // nếu ssinh viên đã nộp bài
             return (
-                <button className='btn-downloadfile' onClick={() => this.downloadFile(filePath)}> <i className="fa fa-download" /> Download File</button>
+                <button className='btn-downloadfile'
+                    // anonymous arrow function
+                    onClick={() => downloadFile(filePath)}>
+                    <i className="fa fa-download" /> Download File</button>
 
             )
         }
     }
 
-    downloadFile = (filePath) => {
 
-        let index = filePath.lastIndexOf("_") - 13;
-        filePath = filePath.substr(index);
-
-
-        fetch(`http://localhost:9999/uploads/${filePath}`)
-            // .then(response => response.json())
-            .then(response => {
-
-                response.blob().then(blob => {
-                    console.log(response)
-
-                    let url = window.URL.createObjectURL(blob);
-                    let a = document.createElement('a');
-                    a.href = url;
-                    a.download = filePath;
-                    a.click();
-                    URL.revokeObjectURL(url.href);
-                });
-            });
-    }
 
     render() {
         return (

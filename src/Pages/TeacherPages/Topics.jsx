@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
-import { changeStatusTopicAction, comfirmRegisterTopicAction, getAllTopicByIdTeacherAction, getStudentWatingComfirmByTeacherAction } from '../../Redux/Actions/Topic.Action';
-import ModalTopic from './ModalTopic';
+import { changeStatusTopicAction, comfirmRegisterTopicAction, denyRegisterTopicAction, getAllTopicByIdTeacherAction, getStudentWatingComfirmByTeacherAction } from '../../Redux/Actions/Topic.Action';
+//import ModalTopic from './ModalTopic';
 
 var dateFormat = require('dateformat')
 
@@ -17,7 +17,13 @@ class Topics extends Component {
                     <td>{index}</td>
                     <td>MDT{ele.idDeTai}</td>
                     <td>{ele.tenDeTai}</td>
-                    <td>{ele.noiDungDT}</td>
+
+                    {/* <td>{ ele.noiDungDT.replace('""' ,"")}</td> */}
+                    <td className='content-topic' dangerouslySetInnerHTML={{
+                        __html: ele.noiDungDT.length > 200 ?
+                            ele.noiDungDT.substring(0, 200) + "..." : ele.noiDungDT
+                    }} />
+
                     <td>{ele.tinhTrangDT === false ?
                         <p className='text-danger'>Đã đóng</p> :
                         <p className='text-success'>Đang mở</p>
@@ -27,7 +33,7 @@ class Topics extends Component {
                         <button style={{ width: "70px" }} className='btn btn-success' onClick={() => this.alertChangeStatus(ele.idDeTai, true)}>Mở</button> :
                         <button style={{ width: "70px" }} className='btn btn-warning ' onClick={() => this.alertChangeStatus(ele.idDeTai, false)}>Đóng</button>
                     }
-                        <NavLink className='btn btn-primary ml-3' to={`/chi-tiet-de-tai/${ele.idDeTai}`}>Xem</NavLink>
+                        <NavLink className='btn btn-primary ml-3' to={`chi-tiet-de-tai/${ele.idDeTai}`}>Xem</NavLink>
 
                     </td>
                 </tr >
@@ -90,7 +96,7 @@ class Topics extends Component {
                     <td>
                         <div>
                             <button className='btn btn-primary mr-3' onClick={() => this.props.comfirmRegisterTopic(ele.idDeTai, ele.idSV, this.props.match.params.id)}>Duyệt</button>
-                            <button className='btn btn-danger'>Từ Chối</button>
+                            <button className='btn btn-danger' onClick={() => this.props.denyRegisterTopic(ele.idDeTai, ele.idSV, this.props.match.params.id)}>Từ Chối</button>
                         </div>
                     </td>
                 </tr >
@@ -106,10 +112,10 @@ class Topics extends Component {
                     <div className="header-list-topic-teacher d-flex justify-content-between my-3">
 
                         <h3>Danh Sách Đề Tài Của Bạn</h3>
-                        <button type="button" className="btn btn-primary mr-3" data-toggle="modal" data-target="#exampleModalTopic"  >
+
+                        <NavLink className="btn btn-primary mr-3" to={`them-de-tai/${this.props.match.params.id}`}>
                             <i className="fa fa-plus" aria-hidden="true"></i>
-                            Thêm Đề Tài
-                  </button>
+                            Thêm Đề Tài</NavLink>
                     </div>
                     <table className="table table-striped" style={{ width: '100%' }}>
 
@@ -154,14 +160,12 @@ class Topics extends Component {
                         </tbody>
                     </table>
                 </div>
-                <ModalTopic idGV={this.props.match.params.id} />
-
 
 
                 <div className="List-Student-waiting-confirm p-3" style={{ backgroundColor: "#f8f9fa" }}>
 
                     <h3 className='my-3'>Danh Sách Sinh Viên Đang Chờ Duyệt Đăng Ký Đề Tài</h3>
-                    <table className="table table-striped"style={{width : '100%'}} >
+                    <table className="table table-striped" style={{ width: '100%' }} >
                         <colgroup>
                             <col span={1} style={{ width: '4%' }} />
                             <col span={1} style={{ width: '10%' }} />
@@ -212,6 +216,9 @@ function mapDispatchToProps(dispatch) {
         },
         changeStatusTopic: (idDetai, idGV, status) => {
             dispatch(changeStatusTopicAction(idDetai, idGV, status))
+        },
+        denyRegisterTopic: (idDeTai, idSV, idGV) => {
+            dispatch(denyRegisterTopicAction(idDeTai, idSV, idGV))
         },
         comfirmRegisterTopic: (idDeTai, idSV, idGV) => {
             dispatch(comfirmRegisterTopicAction(idDeTai, idSV, idGV))

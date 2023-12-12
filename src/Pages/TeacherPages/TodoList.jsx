@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getListTodoListByTeachAction } from '../../Redux/Actions/Topic.Action';
-
+import ModalAddTodo from './ModalAddTodo';
 
 
 class TodoList extends Component {
@@ -40,11 +40,14 @@ class TodoList extends Component {
                 <div className="List-TodoList p-3" style={{ backgroundColor: "#f8f9fa" }}>
                     <div className="header-list-todolist d-flex justify-content-between my-3">
                         <h3>Danh Sách Công Việc</h3>
-                        <button className='btn btn-primary mr-3'><i className="fa fa-plus"></i> Thêm Công Việc</button>
+                        <button className='btn btn-primary mr-3'
+                            type="button" data-toggle="modal" data-target="#exampleModalAddTodo">
+                            <i className="fa fa-plus"></i> Thêm Công Việc
+                        </button>
 
                     </div>
 
-                    <table className="table table-striped text-center" style={{width:'100%'}} >
+                    <table className="table table-striped text-center" style={{ width: '100%' }} >
                         <col span={1} style={{ width: '10%' }} />
                         <col span={1} style={{ width: '15%' }} />
                         <col span={1} style={{ width: '30%' }} />
@@ -66,8 +69,8 @@ class TodoList extends Component {
                         </tbody>
                     </table>
                 </div>
-
-
+                <ModalAddTodo />
+               
             </div>
         );
     }

@@ -1,0 +1,21 @@
+.TblWaitingAssignment {
+    .itemRowStudent {
+        display: flex;
+        .DetailUser-container-left {
+            img {
+                height: 50px;
+                width: 60px;
+            }
+        }
+        .DetailUser-container-right {
+            .infoUser-static,
+            .infoUser-dynamic {
+                .item-row-detail {
+                    .label-user-text {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

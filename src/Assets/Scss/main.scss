@@ -1,8 +1,9 @@
-
+@import 'Common';
 @import 'Header';
 @import 'CommonInfo';
 @import 'DetailUser';
 @import 'Footer';
 
 //teacher page
-@import './TeacherPage/Adddmission'
+@import './TeacherPage/Adddmission';
+@import './TeacherPage/Topic'

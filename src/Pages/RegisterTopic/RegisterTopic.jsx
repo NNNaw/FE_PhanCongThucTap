@@ -92,33 +92,32 @@ class RegisterTopic extends Component {
                     <td >{index}</td>
                     <td>MDT{ele.idDeTai}</td>
                     <td>{ele.tenDeTai}</td>
-                    <td>{ele.noiDungDT}</td>
-                    <td>{ele.tinhTrangDT === false ? <p className='text-danger'>Hết Hạn</p> :
-                        <p className='text-success'>Còn Hạn</p>}</td>
+                    <td className='content-topic' dangerouslySetInnerHTML={{
+                        __html: ele.noiDungDT.length > 200 ?
+                            ele.noiDungDT.substring(0, 200) + "..." : ele.noiDungDT
+                    }} />
+                    <td>{ele.tinhTrangDT === false ? <p className='text-danger'>Đã Đóng</p> :
+                        <p className='text-success'>Đang Mở</p>}</td>
                     <td className='text-center'>
+
                         {ele.idGV == null ?
-                            <p className='text-danger'>---</p> :
+                            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal1"
+                                onClick={() => this.props.getMentor(ele.idNV)}
+                            >Xem TT NV  </button>
+                            :
                             <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                                 onClick={() => this.props.getTeacher(ele.idGV)}
-                            >
-                                Xem TT GV
-                        </button>
+                            > Xem TT GV   </button>
+
+
                             // <button>Xem TT GV</button>
                         }
                     </td>
                     <td className='text-center'>
-                        {ele.idNV == null ?
-                            <p className='text-danger'>---</p> :
-                            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal1"
-                                onClick={() => this.props.getMentor(ele.idNV)}
-                            >
-                                Xem TT NV
-                    </button>
-                        }
-
+                        {ele.soLuongSvDT}
                     </td>
                     <td>
-                        {!ele.tinhTrangDT ?
+                        {!ele.tinhTrangDT || ele.soLuongSvDT <= 0 ?
                             <button className='btn btn-success' disabled >Đăng ký</button> :
                             <button className='btn btn-success' onClick={() => this.props.registerTopic(parseInt(this.props.match.params.id), ele.idDeTai)} >Đăng ký</button>
                         }
@@ -196,7 +195,7 @@ class RegisterTopic extends Component {
 
                     <div className="RegisterTopic-list my-4 p-3" style={{ backgroundColor: "#f8f9fa" }}>
                         <h3>Danh Sách Đề Tài</h3>
-                        <table className="table table-striped" style={{ width: '100%' }}>
+                        <table className="table table-striped" style={{ width: '100%', height: '600px'}}>
                             <colgroup>
                                 <col span={1} style={{ width: '3%' }} />
                                 <col span={1} style={{ width: '10%' }} />
@@ -217,8 +216,8 @@ class RegisterTopic extends Component {
                                     <th>Tiêu Đề</th>
                                     <th>Nội Dung Đề Tài</th>
                                     <th>Tình Trạng</th>
-                                    <th>Giảng Viên HD</th>
-                                    <th>Nhân Viên HD</th>
+                                    <th>Người HD</th>
+                                    <th>S.L Còn</th>
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
@@ -243,9 +242,9 @@ class RegisterTopic extends Component {
 
                                 <col span={1} style={{ width: '10%' }} />
                                 <col span={1} style={{ width: '10%' }} />
-                                <col span={1} style={{ width: '10%' }} />
 
-                                <col span={1} style={{ width: '15%' }} />
+
+                                <col span={1} style={{ width: '10%' }} />
 
                             </colgroup>
 
@@ -255,27 +254,32 @@ class RegisterTopic extends Component {
                                     <th>Mã Đ.T</th>
                                     <th>Tiêu Đề</th>
                                     <th>Nội Dung Đề Tài</th>
-                                    <th>Tình Trạng ĐK</th>
-                                    <th>Ngày Đăng Ký</th>
-                                    <th>Giảng Viên HD</th>
-                                    <th>Nhân Viên HD</th>
+                                    <th>T.Trạng ĐK</th>
+                                    <th>Ngày ĐK</th>
+                                    <th>Người HD</th>
+
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.props.TopicByStudent !== "" &&
-                                    <tr >
+                                {this.props.TopicByStudent.idDeTai &&
+                                    <tr>
                                         <td><p>1</p></td>
                                         <td><p>MDT{this.props.TopicByStudent.idDeTai}</p></td>
                                         <td><p>{this.props.TopicByStudent.tenDeTai}</p></td>
                                         <td><p>{this.props.TopicByStudent.noiDungDT}</p></td>
-                                        <td>{this.props.TopicByStudent.tinhTrang === false ?
+                                        <td>{!this.props.TopicByStudent.tinhTrang ?
                                             <p className='text-danger'>Đang chờ duyệt</p> :
                                             <p className='text-success'>Đã duyệt</p>}</td>
                                         <td><p>{dateFormat(this.props.TopicByStudent.ngayDangKy, 'dd/mm/yyyy')}</p></td>
                                         <td className='text-center'>
+
                                             {this.props.TopicByStudent.idGV == null ?
-                                                <p className='text-danger'>---</p> :
+                                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal1"
+                                                    onClick={() => this.props.getMentor(this.props.TopicByStudent.idNV)}
+                                                >
+                                                    Xem TT NV
+                                      </button> :
                                                 <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                                                     onClick={() => this.props.getTeacher(this.props.TopicByStudent.idGV)}
                                                 >
@@ -284,17 +288,7 @@ class RegisterTopic extends Component {
                                                 // <button>Xem TT GV</button>
                                             }
                                         </td>
-                                        <td className='text-center'>
-                                            {this.props.TopicByStudent.idNV == null ?
-                                                <p className='text-danger'>---</p> :
-                                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal1"
-                                                    onClick={() => this.props.getMentor(this.props.TopicByStudent.idNV)}
-                                                >
-                                                    Xem TT NV
-                                           </button>
-                                            }
 
-                                        </td>
                                         <td>
                                             {!this.props.TopicByStudent.tinhTrang ?
                                                 <button className='btn btn-danger'
@@ -319,12 +313,21 @@ class RegisterTopic extends Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount")
-        this.props.getAllTopic(this.set);
-        this.props.getTopicByIdStudent(this.props.match.params.id);
-        this.props.getALLMentor();
-        this.props.getAllTeacher();
-
+      //  console.log("componentDidMount Register Topic")
+      setTimeout(() => {
+      this.props.getAllTopic(this.set);
+          
+      }, 1);
+       setTimeout(() => {
+        this.props.getTopicByIdStudent(this.props.match.params.id);   
+      }, 50);
+      setTimeout(() => {
+              this.props.getALLMentor();
+      }, 100);
+      setTimeout(() => {
+       this.props.getAllTeacher()
+      }, 150);
+        
     }
     componentDidUpdate(prevProps, prevState) {
 
